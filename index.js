@@ -7,19 +7,19 @@ const cors = require("cors");
 const port = process.env.PORT || 5000;
 
 //test
-const data = require("./users.json");
+// const data = require("./users.json");
 
 app.use(express.json());
 app.use(cors());
 
 //test
-app.get("/api/test", async (req, res) => {
-  try {
-    res.status(201).send(data);
-  } catch (e) {
-    res.status(400).send({ error: e.message });
-  }
-});
+// app.get("/api/test", async (req, res) => {
+//   try {
+//     res.status(201).send(data);
+//   } catch (e) {
+//     res.status(400).send({ error: e.message });
+//   }
+// });
 
 //getting all users - WORKS
 app.get("/api/users", async (req, res) => {
@@ -65,17 +65,17 @@ app.post("/api/users", async (req, res) => {
   throw new Error("user not added");
 });
 
-//deposit
+//deposit - WORKS
 app.put("/api/deposit/:id", async (req, res) => {
   const { deposit } = req.body;
   const _id = req.params.id;
   // const account = await Account.findById(_id);
-  console.log(_id);
+  // console.log(_id);
 
   try {
     const accont = await Account.findByIdAndUpdate(
       _id,
-      { cash: deposit },
+      { $inc: { cash: deposit } },
       {
         runValidators: true,
         new: true,
@@ -88,7 +88,7 @@ app.put("/api/deposit/:id", async (req, res) => {
   }
 });
 
-//withdraw
+//withdraw - WORKS
 app.put("/api/withdraw/:id", async (req, res) => {
   const { withdraw } = req.body;
   const _id = req.params.id;
@@ -96,7 +96,7 @@ app.put("/api/withdraw/:id", async (req, res) => {
   try {
     const accont = await Account.findByIdAndUpdate(
       _id,
-      { cash: withdraw },
+      { $inc: { cash: -withdraw } },
       {
         runValidators: true,
         new: true,
@@ -109,7 +109,7 @@ app.put("/api/withdraw/:id", async (req, res) => {
   }
 });
 
-//transfer
+//transfer -
 app.put("/api/transfer/:id", async (req, res) => {
   const { id_receive, transfer } = req.body;
   const _id = req.params.id;
@@ -117,7 +117,7 @@ app.put("/api/transfer/:id", async (req, res) => {
   try {
     const accont_send = await Account.findByIdAndUpdate(
       _id,
-      { cash: transfer },
+      { $inc: { cash: -transfer } },
       {
         runValidators: true,
         new: true,
@@ -126,14 +126,14 @@ app.put("/api/transfer/:id", async (req, res) => {
     );
     const accont_receive = await Account.findByIdAndUpdate(
       id_receive,
-      { cash: transfer },
+      { $inc: { cash: transfer } },
       {
         runValidators: true,
         new: true,
         useFindAndModify: false,
       }
     );
-    res.status(201).send(accont_send, accont_receive);
+    res.status(201).send(accont_send);
   } catch (e) {
     res.status(400).send({ error: e.message });
   }
