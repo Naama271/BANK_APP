@@ -13,10 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "build-app": "^0.7.0",
     "concurrently": "^6.0.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.12.5",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "yarn": "^1.22.10"
   }
 }

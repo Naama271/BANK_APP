@@ -3,11 +3,11 @@ require("./mongoose");
 const User = require("./user");
 const Account = require("./account");
 const app = express();
-const cors = require("cors")
+const cors = require("cors");
 const port = process.env.PORT || 5000;
 
 //test
-const data = require("./users.json")
+const data = require("./users.json");
 
 app.use(express.json());
 app.use(cors());
@@ -69,15 +69,19 @@ app.post("/api/users", async (req, res) => {
 app.put("/api/deposit/:id", async (req, res) => {
   const { deposit } = req.body;
   const _id = req.params.id;
- // const account = await Account.findById(_id);
-  console.log(_id)
+  // const account = await Account.findById(_id);
+  console.log(_id);
 
   try {
-    const accont = await Account.findByIdAndUpdate(_id, {"cash": deposit}, {
-       runValidators: true,
-      new: true,
-      useFindAndModify: false
-    });
+    const accont = await Account.findByIdAndUpdate(
+      _id,
+      { cash: deposit },
+      {
+        runValidators: true,
+        new: true,
+        useFindAndModify: false,
+      }
+    );
     res.status(201).send(accont);
   } catch (e) {
     res.status(400).send({ error: e.message });
@@ -90,11 +94,15 @@ app.put("/api/withdraw/:id", async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const accont = await Account.findByIdAndUpdate(_id, {"cash": withdraw}, {
-       runValidators: true,
-      new: true,
-      useFindAndModify: false
-    });
+    const accont = await Account.findByIdAndUpdate(
+      _id,
+      { cash: withdraw },
+      {
+        runValidators: true,
+        new: true,
+        useFindAndModify: false,
+      }
+    );
     res.status(201).send(accont);
   } catch (e) {
     res.status(400).send({ error: e.message });
@@ -107,17 +115,25 @@ app.put("/api/transfer/:id", async (req, res) => {
   const _id = req.params.id;
 
   try {
-    const accont_send = await Account.findByIdAndUpdate(_id, {"cash": transfer}, {
-       runValidators: true,
-      new: true,
-      useFindAndModify: false
-    });
-    const accont_receive = await Account.findByIdAndUpdate(id_receive, {"cash": transfer}, {
-      runValidators: true,
-     new: true,
-     useFindAndModify: false
-   });
-    res.status(201).send(accont_send ,accont_receive);
+    const accont_send = await Account.findByIdAndUpdate(
+      _id,
+      { cash: transfer },
+      {
+        runValidators: true,
+        new: true,
+        useFindAndModify: false,
+      }
+    );
+    const accont_receive = await Account.findByIdAndUpdate(
+      id_receive,
+      { cash: transfer },
+      {
+        runValidators: true,
+        new: true,
+        useFindAndModify: false,
+      }
+    );
+    res.status(201).send(accont_send, accont_receive);
   } catch (e) {
     res.status(400).send({ error: e.message });
   }

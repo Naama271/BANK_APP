@@ -1,7 +1,8 @@
 import "./App.css";
 
 import api from "./API/api";
-import React, { useState, useEffect } from "react";
+// import React from "react";
+import  React , { useState, useEffect } from "react";
 // import axios from "axios";
 import Forms from "./Forms"
 
