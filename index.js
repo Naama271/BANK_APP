@@ -1,7 +1,7 @@
 const express = require("express");
-require("./mongoose");
-const User = require("./user");
-const Account = require("./account");
+require("./DB/mongoose");
+const User = require("./MODELS/user");
+const Account = require("./MODELS/account");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
