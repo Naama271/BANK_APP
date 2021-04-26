@@ -5,6 +5,8 @@ const Account = require("./MODELS/account");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
+const { sendWelcomeEmail } = require('./SRC/EMAILS/acount')
+require('dotenv').config()
 
 //test
 // const data = require("./users.json");
@@ -60,9 +62,17 @@ app.get("/api/accounts/:id", async (req, res) => {
 
 //adding new user - connect to model???
 app.post("/api/users", async (req, res) => {
-  // console.log(req.params);
-  res.send("user");
-  throw new Error("user not added");
+
+  const user = new User(req.body)
+  try {
+    await user.save();
+    sendWelcomeEmail(user.email , user.name)
+    res.status(201).send(user);
+  } catch (e) {
+    res.status(400).send({ error: e.message });
+  }
+  // res.send("user");
+  // throw new Error("user not added");
 });
 
 //deposit - WORKS
